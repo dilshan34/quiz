@@ -27,17 +27,17 @@ public class QuizController {
 //    }
     @PostMapping(path = "/create")
     public ResponseEntity<String> createQuiz(@RequestBody QuizDTO quizDTO) {
-        quizService.createQuiz(quizDTO.getCategory(),quizDTO.getNoOfQuestion(),quizDTO.getTitle());
+        quizService.createQuiz(quizDTO.getCategory(),2,quizDTO.getTitle());
         return new ResponseEntity<>("Created", HttpStatus.CREATED);
     }
 
-    @GetMapping(path = "/get/{id}")
-    public ResponseEntity<List<QuestionWrapper>> getQuiz(@PathVariable int id) {
-        return new ResponseEntity<>(quizService.getQuizByID(id), HttpStatus.OK);
-    }
-
-    @PostMapping(path = "/check/{id}")
-    public ResponseEntity<Integer> getQuiz(@PathVariable int id, @RequestBody List<UserResponse> response) {
-        return new ResponseEntity<>(quizService.getCorrectAnswersCount(id, response), HttpStatus.OK);
-    }
+//    @GetMapping(path = "/get/{id}")
+//    public ResponseEntity<List<QuestionWrapper>> getQuiz(@PathVariable int id) {
+//        return new ResponseEntity<>(quizService.getQuizByID(id), HttpStatus.OK);
+//    }
+//
+//    @PostMapping(path = "/check/{id}")
+//    public ResponseEntity<Integer> getQuiz(@PathVariable int id, @RequestBody List<UserResponse> response) {
+//        return new ResponseEntity<>(quizService.getCorrectAnswersCount(id, response), HttpStatus.OK);
+//    }
 }

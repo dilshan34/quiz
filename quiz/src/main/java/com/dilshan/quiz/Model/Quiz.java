@@ -12,13 +12,14 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
-    @ManyToMany
-    @JoinTable(
-            name = "quiz_questions",
-            joinColumns = @JoinColumn(name = "quiz_id"),
-            inverseJoinColumns = @JoinColumn(name = "question_id")
-    )
-    private List<Question> questions;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "quiz_questions",
+//            joinColumns = @JoinColumn(name = "quiz_id"),
+//            inverseJoinColumns = @JoinColumn(name = "question_id")
+//    )
+    @Transient
+    private List<Integer> questionsIDs;
 
     public int getId() {
         return id;
@@ -36,18 +37,18 @@ public class Quiz {
         this.title = title;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public List<Integer> getQuestionsIDs() {
+        return questionsIDs;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public void setQuestionsIDs(List<Integer> questionsIDs) {
+        this.questionsIDs = questionsIDs;
     }
 
-    public Quiz(int id, String title, List<Question> questions) {
+    public Quiz(int id, String title, List<Integer> questionsIDs) {
         this.id = id;
         this.title = title;
-        this.questions = questions;
+        this.questionsIDs = questionsIDs;
     }
     public Quiz(){}
 }

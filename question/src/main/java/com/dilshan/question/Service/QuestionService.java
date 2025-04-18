@@ -32,8 +32,8 @@ public class QuestionService {
         return new ResponseEntity<>("Success",HttpStatus.CREATED);
     }
 
-    public ResponseEntity<List<Question>> getQuestionByCategory(String category){
-        return new ResponseEntity<>( questionRepository.findByCategory(category),HttpStatus.OK);
+    public ResponseEntity<List<Integer>> getQuestionByCategory(String category,int id){
+        return new ResponseEntity<>( questionRepository.getQuestionsByCategory(category,id),HttpStatus.OK);
     }
 
     public Integer getCorrectAnswersCount(List<UserResponse> response) {

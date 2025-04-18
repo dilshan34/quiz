@@ -30,9 +30,9 @@ public class QuestionController {
         return questionService.addQuestion(question);
     }
 
-    @GetMapping(path = "/category/{category}")
-    public ResponseEntity<List<Question>> findQuestionByCategory(@PathVariable String category){
-        return questionService.getQuestionByCategory(category);
+    @GetMapping(path = "/category")
+    public ResponseEntity<List<Integer>> findQuestionByCategory(@RequestParam String category,@RequestParam int count){
+        return questionService.getQuestionByCategory(category,count);
     }
 
     @PostMapping(path = "/score")
