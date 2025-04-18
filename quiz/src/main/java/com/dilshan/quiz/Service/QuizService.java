@@ -26,13 +26,13 @@ public class QuizService {
 
     public void createQuiz(String category, int noOfQuestions, String title) {
 
-        List<Question> questions = questionRepository.getQuestionsByCategory(category,noOfQuestions);
-
-        Quiz quiz = new Quiz();
-        quiz.setTitle(title);
-        quiz.setQuestions(questions);
-
-        quizRepository.save(quiz);
+//        List<Question> questions = questionRepository.getQuestionsByCategory(category,noOfQuestions);
+//
+//        Quiz quiz = new Quiz();
+//        quiz.setTitle(title);
+//        quiz.setQuestions(questions);
+//
+//        quizRepository.save(quiz);
     }
 
     public List<QuestionWrapper> getQuizByID(int id) {

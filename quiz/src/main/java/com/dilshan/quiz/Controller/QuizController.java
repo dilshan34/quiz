@@ -1,8 +1,7 @@
 package com.dilshan.quiz.Controller;
 
-import com.dilshan.quiz.Model.Question;
 import com.dilshan.quiz.Model.QuestionWrapper;
-import com.dilshan.quiz.Model.Quiz;
+import com.dilshan.quiz.Model.QuizDTO;
 import com.dilshan.quiz.Model.UserResponse;
 import com.dilshan.quiz.Service.QuizService;
 import org.springframework.http.HttpStatus;
@@ -15,15 +14,20 @@ import java.util.List;
 @RequestMapping(path = "/quiz")
 public class QuizController {
 
-      private QuizService quizService;
+    private final QuizService quizService;
 
-     public QuizController(QuizService quizService){
-         this.quizService = quizService;
-     }
+    public QuizController(QuizService quizService) {
+        this.quizService = quizService;
+    }
 
+    //    @PostMapping(path = "/create")
+//    public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int noOfQuestions, @RequestParam String title) {
+//        quizService.createQuiz(category,noOfQuestions,title);
+//        return new ResponseEntity<>("Created", HttpStatus.CREATED);
+//    }
     @PostMapping(path = "/create")
-    public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int noOfQuestions, @RequestParam String title) {
-        quizService.createQuiz(category,noOfQuestions,title);
+    public ResponseEntity<String> createQuiz(@RequestBody QuizDTO quizDTO) {
+        quizService.createQuiz(quizDTO.getCategory(),quizDTO.getNoOfQuestion(),quizDTO.getTitle());
         return new ResponseEntity<>("Created", HttpStatus.CREATED);
     }
 
@@ -34,6 +38,6 @@ public class QuizController {
 
     @PostMapping(path = "/check/{id}")
     public ResponseEntity<Integer> getQuiz(@PathVariable int id, @RequestBody List<UserResponse> response) {
-        return new ResponseEntity<>(quizService.getCorrectAnswersCount(id,response), HttpStatus.OK);
+        return new ResponseEntity<>(quizService.getCorrectAnswersCount(id, response), HttpStatus.OK);
     }
 }
