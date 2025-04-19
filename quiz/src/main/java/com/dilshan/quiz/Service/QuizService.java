@@ -32,9 +32,14 @@ public class QuizService {
         quiz.setTitle(title);
         quiz.setQuestionsIDs(questions);
 
-        System.out.println("============== "+quiz.getQuestionsIDs());
+        //save quiz title to quiz table
+        Quiz savedQuiz = quizRepository.save(new Quiz(0, quiz.getTitle(), null));
 
-//        quizRepository.save(quiz);
+        // Save question IDs to quiz_questions
+        for (Integer qId : quiz.getQuestionsIDs()) {
+            quizRepository.insertQuizQuestion(savedQuiz.getId(), qId);
+        }
+
     }
 //
 //    public List<QuestionWrapper> getQuizByID(int id) {

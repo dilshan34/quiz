@@ -12,12 +12,6 @@ public class Quiz {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String title;
-//    @ManyToMany
-//    @JoinTable(
-//            name = "quiz_questions",
-//            joinColumns = @JoinColumn(name = "quiz_id"),
-//            inverseJoinColumns = @JoinColumn(name = "question_id")
-//    )
     @Transient
     private List<Integer> questionsIDs;
 
