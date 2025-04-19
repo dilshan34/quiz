@@ -12,9 +12,9 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 
     List<Question> findByCategory(String category);
 
-    @Query(value = "SELECT id FROM Question q where q.category = :category limit :noOfQuestions", nativeQuery = true)
+    @Query(value = "SELECT id FROM Questions q where q.category = :category limit :noOfQuestions", nativeQuery = true)
     List<Integer> getQuestionsByCategory(String category, int noOfQuestions);
 
-    @Query(value = "SELECT * FROM Question q where q.id IN :ids", nativeQuery = true)
+    @Query(value = "SELECT * FROM Questions q where q.id IN :ids", nativeQuery = true)
     List<Question> findByQuestionID(List<Integer> ids);
 }

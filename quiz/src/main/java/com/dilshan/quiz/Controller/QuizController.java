@@ -31,13 +31,13 @@ public class QuizController {
         return new ResponseEntity<>("Created", HttpStatus.CREATED);
     }
 
-//    @GetMapping(path = "/get/{id}")
-//    public ResponseEntity<List<QuestionWrapper>> getQuiz(@PathVariable int id) {
-//        return new ResponseEntity<>(quizService.getQuizByID(id), HttpStatus.OK);
-//    }
-//
-//    @PostMapping(path = "/check/{id}")
-//    public ResponseEntity<Integer> getQuiz(@PathVariable int id, @RequestBody List<UserResponse> response) {
-//        return new ResponseEntity<>(quizService.getCorrectAnswersCount(id, response), HttpStatus.OK);
-//    }
+    @GetMapping(path = "/get/{id}")
+    public ResponseEntity<List<QuestionWrapper>> getQuiz(@PathVariable int id) {
+        return new ResponseEntity<>(quizService.getQuizByID(id), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/check")
+    public ResponseEntity<Integer> getQuiz( @RequestBody List<UserResponse> response) {
+        return new ResponseEntity<>(quizService.getCorrectAnswersCount( response), HttpStatus.OK);
+    }
 }

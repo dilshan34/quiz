@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface QuizRepository extends JpaRepository<Quiz,Integer> {
 
@@ -15,4 +17,7 @@ public interface QuizRepository extends JpaRepository<Quiz,Integer> {
     @Transactional
     @Query(value = "INSERT INTO quiz_questions (quiz_id, question_id) VALUES (:quizId, :questionId)", nativeQuery = true)
     void insertQuizQuestion(@Param("quizId") int quizId, @Param("questionId") int questionId);
+
+    @Query(value = "select question_id from quiz_questions where quiz_id = :id",nativeQuery = true)
+    List<Integer> getQuestionIds(@Param("id") int id);
 }
