@@ -21,8 +21,8 @@ public class QuizService {
 
     public void createQuiz(String category, int noOfQuestions, String title) {
 
+        //get question ids by number of questions and category
         List<Integer> questions = quizInterface.findQuestionByCategory(category,noOfQuestions).getBody();
-        System.out.println(questions);
 
         Quiz quiz = new Quiz();
         quiz.setTitle(title);
@@ -44,11 +44,8 @@ public class QuizService {
             //get questionIds by quiz id from quiz table
             List<Integer> questionIDs = quizRepository.getQuestionIds(id);
             //get questions from question service
-            List<QuestionWrapper> userQuestions = quizInterface.getQuestionByID(questionIDs).getBody();
 
-        System.out.println(userQuestions);
-
-            return userQuestions;
+        return quizInterface.getQuestionByID(questionIDs).getBody();
     }
 
     //get correct answers score
