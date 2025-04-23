@@ -1,29 +1,35 @@
 package com.dilshan.quiz.Service;
 
+import com.dilshan.quiz.Exception.NotFoundQuestionException;
+import com.dilshan.quiz.Exception.NotFoundQuizIdException;
 import com.dilshan.quiz.Feign.QuizInterface;
 import com.dilshan.quiz.Model.QuestionWrapper;
 import com.dilshan.quiz.Model.Quiz;
 import com.dilshan.quiz.Model.UserResponse;
 import com.dilshan.quiz.Repository.QuizRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class QuizService {
 
-   final private QuizRepository quizRepository;
-   private QuizInterface quizInterface;
+    final private QuizRepository quizRepository;
+    private QuizInterface quizInterface;
 
-    public QuizService(QuizRepository quizRepository,QuizInterface quizInterface) {
+    public QuizService(QuizRepository quizRepository, QuizInterface quizInterface) {
         this.quizRepository = quizRepository;
-        this.quizInterface=quizInterface;
+        this.quizInterface = quizInterface;
     }
 
     public void createQuiz(String category, int noOfQuestions, String title) {
 
         //get question ids by number of questions and category
-        List<Integer> questions = quizInterface.findQuestionByCategory(category,noOfQuestions).getBody();
+        List<Integer> questions = quizInterface.findQuestionByCategory(category, noOfQuestions).getBody();
 
+        if(questions.isEmpty()){
+            throw new NotFoundQuestionException("Can't find any questions from this category, Invalid Category");
+        }
         Quiz quiz = new Quiz();
         quiz.setTitle(title);
         quiz.setQuestionsIDs(questions);
@@ -41,15 +47,18 @@ public class QuizService {
     //return question by quiz id
     public List<QuestionWrapper> getQuizByID(int id) {
 
-            //get questionIds by quiz id from quiz table
-            List<Integer> questionIDs = quizRepository.getQuestionIds(id);
-            //get questions from question service
+        //get questionIds by quiz id from quiz table
+        List<Integer> questionIDs = quizRepository.getQuestionIds(id);
+        //get questions from question service
+        if (questionIDs.isEmpty()) {
+            throw new NotFoundQuizIdException("There is no such Quiz");
+        }
 
         return quizInterface.getQuestionByID(questionIDs).getBody();
     }
 
     //get correct answers score
-    public int getCorrectAnswersCount( List<UserResponse> responses){
+    public int getCorrectAnswersCount(List<UserResponse> responses) {
 
         return quizInterface.getScore(responses).getBody();
 

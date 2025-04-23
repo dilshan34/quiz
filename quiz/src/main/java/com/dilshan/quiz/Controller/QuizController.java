@@ -19,12 +19,7 @@ public class QuizController {
     public QuizController(QuizService quizService) {
         this.quizService = quizService;
     }
-
-    //    @PostMapping(path = "/create")
-//    public ResponseEntity<String> createQuiz(@RequestParam String category, @RequestParam int noOfQuestions, @RequestParam String title) {
-//        quizService.createQuiz(category,noOfQuestions,title);
-//        return new ResponseEntity<>("Created", HttpStatus.CREATED);
-//    }
+    
     @PostMapping(path = "/create")
     public ResponseEntity<String> createQuiz(@RequestBody QuizDTO quizDTO) {
         quizService.createQuiz(quizDTO.getCategory(),quizDTO.getNoOfQuestion(),quizDTO.getTitle());
