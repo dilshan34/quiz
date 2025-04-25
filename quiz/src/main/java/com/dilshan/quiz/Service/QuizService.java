@@ -2,6 +2,7 @@ package com.dilshan.quiz.Service;
 
 import com.dilshan.quiz.Exception.NotFoundQuestionException;
 import com.dilshan.quiz.Exception.NotFoundQuizIdException;
+import com.dilshan.quiz.Exception.TitleIsAlreadyAvailable;
 import com.dilshan.quiz.Feign.QuizInterface;
 import com.dilshan.quiz.Model.QuestionWrapper;
 import com.dilshan.quiz.Model.Quiz;
@@ -24,9 +25,13 @@ public class QuizService {
 
     public void createQuiz(String category, int noOfQuestions, String title) {
 
+        String checkCategory = quizRepository.checkTitle(title);
+
         //get question ids by number of questions and category
         List<Integer> questions = quizInterface.findQuestionByCategory(category, noOfQuestions).getBody();
-
+        if(!checkCategory.isEmpty()){
+            throw new TitleIsAlreadyAvailable("Provided title already available, please enter a new title");
+        }
         if(questions.isEmpty()){
             throw new NotFoundQuestionException("Can't find any questions from this category, Invalid Category");
         }

@@ -1,0 +1,8 @@
+Data Transfer Object pattern
+global exceptions
+microservices
+springboot
+hibernate
+gateway
+eureka server
+mysql databases

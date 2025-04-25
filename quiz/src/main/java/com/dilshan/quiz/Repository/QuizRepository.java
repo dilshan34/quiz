@@ -20,4 +20,7 @@ public interface QuizRepository extends JpaRepository<Quiz,Integer> {
 
     @Query(value = "select question_id from quiz_questions where quiz_id = :id",nativeQuery = true)
     List<Integer> getQuestionIds(@Param("id") int id);
+
+    @Query(value = "select category from quiz where title = :title",nativeQuery = true)
+    String checkTitle(String title);
 }
