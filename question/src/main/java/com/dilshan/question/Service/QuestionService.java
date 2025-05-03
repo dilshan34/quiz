@@ -5,7 +5,6 @@ import com.dilshan.question.Model.QuestionWrapper;
 import com.dilshan.question.Model.UserResponse;
 import com.dilshan.question.Repository.QuestionRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
