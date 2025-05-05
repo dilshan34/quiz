@@ -59,7 +59,21 @@ class QuestionServiceTest {
     }
 
     @Test
-    void getQuestionByCategory() {
+    void getQuestionByCategorySuccessfully() {
+
+        String category = "java";
+        int noOfQuestions = 4;
+
+        List<Integer> questionIds = Arrays.asList(1,8,7,11);
+
+        when(questionRepository.getQuestionsByCategory(category,noOfQuestions)).thenReturn(questionIds);
+
+        ResponseEntity<List<Integer>> response = questionService.getQuestionByCategory(category,noOfQuestions);
+
+        assertEquals(200,response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertEquals(questionIds,response.getBody());
+        assertEquals(noOfQuestions,response.getBody().size());
     }
 
     @Test
