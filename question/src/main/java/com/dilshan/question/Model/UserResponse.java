@@ -22,4 +22,9 @@ public class UserResponse {
     }
 
     public UserResponse(){}
+
+    public UserResponse(String response, int id) {
+        this.response = response;
+        this.id = id;
+    }
 }

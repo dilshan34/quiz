@@ -1,6 +1,7 @@
 package com.dilshan.question.Service;
 
 import com.dilshan.question.Model.Question;
+import com.dilshan.question.Model.UserResponse;
 import com.dilshan.question.Repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -77,7 +78,22 @@ class QuestionServiceTest {
     }
 
     @Test
-    void getCorrectAnswersCount() {
+    void getCorrectAnswersCountSuccessfully() {
+
+        List<UserResponse> data = List.of(
+                new UserResponse("B", 1)
+        );
+        List<Question> mockQuestions = Arrays.asList(
+                new Question(1, "Cat1", "Easy", "A", "B", "C", "D", "What is 1+1?", "B"),
+                new Question(2, "Cat2", "Medium", "True", "False", "Maybe", "None", "Java is?", "True")
+        );
+        when(questionRepository.findAll()).thenReturn(mockQuestions);
+
+        Integer response = questionService.getCorrectAnswersCount(data);
+
+        assertNotNull(response);
+        assertEquals(1,response);
+
     }
 
     @Test
