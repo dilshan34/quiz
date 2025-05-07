@@ -1,6 +1,7 @@
 package com.dilshan.question.Service;
 
 import com.dilshan.question.Model.Question;
+import com.dilshan.question.Model.QuestionWrapper;
 import com.dilshan.question.Model.UserResponse;
 import com.dilshan.question.Repository.QuestionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -97,6 +98,20 @@ class QuestionServiceTest {
     }
 
     @Test
-    void getQuestionsByID() {
+    void getQuestionsByIDsSuccessfully() {
+
+        List<Integer> questionIds = Arrays.asList(2);
+        List<Question> mockQuestions = Arrays.asList(
+                new Question(1, "Cat1", "Easy", "A", "B", "C", "D", "What is 1+1?", "B"),
+                new Question(2, "Cat2", "Medium", "True", "False", "Maybe", "None", "Java is?", "True")
+        );
+        when(questionRepository.findByQuestionID(questionIds)).thenReturn(mockQuestions);
+
+        List<QuestionWrapper> response = questionService.getQuestionsByID(questionIds);
+
+        assertNotNull(response);
+        assertEquals(2,response.size());
+        assertEquals("What is 1+1?", response.get(0).getTitle());
+        assertEquals("Java is?", response.get(1).getTitle());
     }
 }
