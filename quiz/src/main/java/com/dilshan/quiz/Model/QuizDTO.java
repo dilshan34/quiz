@@ -36,5 +36,5 @@ public class QuizDTO {
         this.title = title;
     }
 
-    QuizDTO(){}
+    public QuizDTO(){}
 }

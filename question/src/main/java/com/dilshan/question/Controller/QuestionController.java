@@ -16,32 +16,32 @@ public class QuestionController {
 
     private final QuestionService questionService;
 
-    public QuestionController(QuestionService questionService){
-        this.questionService=questionService;
+    public QuestionController(QuestionService questionService) {
+        this.questionService = questionService;
     }
 
     @GetMapping(path = "/allQuestions")
-    public ResponseEntity<List<Question>> getAllQuestions(){
+    public ResponseEntity<List<Question>> getAllQuestions() {
         return questionService.getAllQuestions();
     }
 
     @PostMapping(path = "/addQuestion")
-    public ResponseEntity<String> addQuestion(@RequestBody Question question){
+    public ResponseEntity<String> addQuestion(@RequestBody Question question) {
         return questionService.addQuestion(question);
     }
 
     @GetMapping(path = "/category")
-    public ResponseEntity<List<Integer>> findQuestionByCategory(@RequestParam String category,@RequestParam int count){
-        return questionService.getQuestionByCategory(category,count);
+    public ResponseEntity<List<Integer>> findQuestionByCategory(@RequestParam String category, @RequestParam int count) {
+        return questionService.getQuestionByCategory(category, count);
     }
 
     @PostMapping(path = "/score")
-    public ResponseEntity<Integer> getScore( @RequestBody List<UserResponse> response) {
+    public ResponseEntity<Integer> getScore(@RequestBody List<UserResponse> response) {
         return new ResponseEntity<>(questionService.getCorrectAnswersCount(response), HttpStatus.OK);
     }
 
     @GetMapping(path = "/get")
-    public ResponseEntity<List<QuestionWrapper>> getQuestionByID(@RequestParam List<Integer> ids){
-        return new ResponseEntity<>(questionService.getQuestionsByID(ids),HttpStatus.OK);
+    public ResponseEntity<List<QuestionWrapper>> getQuestionByID(@RequestParam List<Integer> ids) {
+        return new ResponseEntity<>(questionService.getQuestionsByID(ids), HttpStatus.OK);
     }
 }
