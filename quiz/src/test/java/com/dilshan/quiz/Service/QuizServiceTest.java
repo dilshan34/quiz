@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 class QuizServiceTest {
@@ -89,5 +90,48 @@ class QuizServiceTest {
         when(quizInterface.getScore(responses)).thenReturn(ResponseEntity.ok(2));
         int score = quizService.getCorrectAnswersCount(responses);
         assertEquals(2, score);
+    }
+
+    @Test
+    void testCreateQuiz_QuizRepositorySaveArguments() {
+        when(quizRepository.checkTitle("title")).thenReturn("");
+        when(quizInterface.findQuestionByCategory("cat", 2)).thenReturn(ResponseEntity.ok(Arrays.asList(1, 2)));
+        when(quizRepository.save(any(Quiz.class))).thenReturn(new Quiz(1, "title", null));
+        doNothing().when(quizRepository).insertQuizQuestion(anyInt(), anyInt());
+        quizService.createQuiz("cat", 2, "title");
+        verify(quizRepository).save(argThat(quiz -> quiz.getTitle().equals("title")));
+    }
+
+    @Test
+    void testCreateQuiz_InsertQuizQuestionArguments() {
+        when(quizRepository.checkTitle("title")).thenReturn("");
+        when(quizInterface.findQuestionByCategory("cat", 2)).thenReturn(ResponseEntity.ok(Arrays.asList(10, 20)));
+        when(quizRepository.save(any(Quiz.class))).thenReturn(new Quiz(5, "title", null));
+        doNothing().when(quizRepository).insertQuizQuestion(anyInt(), anyInt());
+        quizService.createQuiz("cat", 2, "title");
+        verify(quizRepository).insertQuizQuestion(eq(5), eq(10));
+        verify(quizRepository).insertQuizQuestion(eq(5), eq(20));
+    }
+
+    @Test
+    void testGetCorrectAnswersCount_VariousScores() {
+        List<UserResponse> responses = Arrays.asList(new UserResponse(), new UserResponse(), new UserResponse());
+        when(quizInterface.getScore(responses)).thenReturn(ResponseEntity.ok(3));
+        int score = quizService.getCorrectAnswersCount(responses);
+        assertEquals(3, score);
+    }
+
+    @Test
+    void testCreateQuiz_QuestionServiceReturnsNull() {
+        when(quizRepository.checkTitle("title")).thenReturn("");
+        when(quizInterface.findQuestionByCategory("cat", 2)).thenReturn(null);
+        assertThrows(NullPointerException.class, () -> quizService.createQuiz("cat", 2, "title"));
+    }
+
+    @Test
+    void testGetQuizByID_QuestionServiceReturnsNull() {
+        when(quizRepository.getQuestionIds(1)).thenReturn(Arrays.asList(1, 2));
+        when(quizInterface.getQuestionByID(Arrays.asList(1, 2))).thenReturn(null);
+        assertThrows(NullPointerException.class, () -> quizService.getQuizByID(1));
     }
 }
