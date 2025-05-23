@@ -114,4 +114,63 @@ class QuestionServiceTest {
         assertEquals("What is 1+1?", response.get(0).getTitle());
         assertEquals("Java is?", response.get(1).getTitle());
     }
+
+    @Test
+    void testGetAllQuestions_EmptyList() {
+        when(questionRepository.findAll()).thenReturn(List.of());
+        ResponseEntity<List<Question>> response = questionService.getAllQuestions();
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().isEmpty());
+    }
+
+    @Test
+    void testAddQuestion_NullQuestion() {
+        // Should not throw, but will call save with null
+        when(questionRepository.save(null)).thenReturn(null);
+        ResponseEntity<String> response = questionService.addQuestion(null);
+        assertEquals(201, response.getStatusCodeValue());
+        assertEquals("Success", response.getBody());
+    }
+
+    @Test
+    void testGetQuestionByCategory_EmptyResult() {
+        when(questionRepository.getQuestionsByCategory("cat", 0)).thenReturn(List.of());
+        ResponseEntity<List<Integer>> response = questionService.getQuestionByCategory("cat", 0);
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().isEmpty());
+    }
+
+    @Test
+    void testGetCorrectAnswersCount_NoResponses() {
+        List<UserResponse> data = List.of();
+        List<Question> mockQuestions = List.of(
+                new Question(1, "Cat1", "Easy", "A", "B", "C", "D", "What is 1+1?", "B")
+        );
+        when(questionRepository.findAll()).thenReturn(mockQuestions);
+        Integer response = questionService.getCorrectAnswersCount(data);
+        assertNotNull(response);
+        assertEquals(0, response);
+    }
+
+    @Test
+    void testGetCorrectAnswersCount_WrongAnswer() {
+        List<UserResponse> data = List.of(new UserResponse("A", 1));
+        List<Question> mockQuestions = List.of(
+                new Question(1, "Cat1", "Easy", "A", "B", "C", "D", "What is 1+1?", "B")
+        );
+        when(questionRepository.findAll()).thenReturn(mockQuestions);
+        Integer response = questionService.getCorrectAnswersCount(data);
+        assertNotNull(response);
+        assertEquals(0, response);
+    }
+
+    @Test
+    void testGetQuestionsByID_EmptyList() {
+        when(questionRepository.findByQuestionID(List.of())).thenReturn(List.of());
+        List<QuestionWrapper> response = questionService.getQuestionsByID(List.of());
+        assertNotNull(response);
+        assertTrue(response.isEmpty());
+    }
 }
