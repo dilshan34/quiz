@@ -1,4 +1,4 @@
-// QuizController exposes REST endpoints for quiz creation, retrieval, and scoring.
+// QuizController exposes REST endpoints for quiz management (create, retrieve, check answers).
 // It delegates business logic to QuizService and handles HTTP request/response mapping.
 // Update endpoints and logic as requirements evolve.
 package com.dilshan.quiz.Controller;
@@ -17,6 +17,7 @@ import java.util.List;
 @RequestMapping(path = "/quiz")
 public class QuizController {
 
+    // Injects the QuizService to delegate business logic
     private final QuizService quizService;
 
     public QuizController(QuizService quizService) {
@@ -35,9 +36,9 @@ public class QuizController {
     }
 
     /**
-     * Endpoint to retrieve all questions for a quiz by its ID.
+     * Endpoint to retrieve questions for a quiz by its ID.
      * @param id the quiz ID
-     * @return List of QuestionWrapper objects for the quiz
+     * @return list of questions for the quiz
      */
     @GetMapping(path = "/get/{id}")
     public ResponseEntity<List<QuestionWrapper>> getQuiz(@PathVariable int id) {
@@ -45,7 +46,7 @@ public class QuizController {
     }
 
     /**
-     * Endpoint to check user answers and return the score.
+     * Endpoint to check user answers and get the score.
      * @param response list of user responses
      * @return number of correct answers
      */
