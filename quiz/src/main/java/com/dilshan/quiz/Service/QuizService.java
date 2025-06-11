@@ -44,11 +44,11 @@ public class QuizService {
             throw new IllegalArgumentException("Number of questions must be greater than zero. Please provide a valid number.");
         }
 
-        String checkCategory = quizRepository.checkTitle(title);
+        String existingTitle = quizRepository.checkTitle(title);
 
         //get question ids by number of questions and category
         List<Integer> questions = quizInterface.findQuestionByCategory(category, noOfQuestions).getBody();
-        if(!checkCategory.isEmpty()){
+        if (existingTitle != null && !existingTitle.isEmpty()) {
             throw new TitleIsAlreadyAvailable("Provided title is already available. Please enter a new, unique title.");
         }
         if(questions == null || questions.isEmpty()){
