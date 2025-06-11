@@ -126,11 +126,8 @@ class QuestionServiceTest {
 
     @Test
     void testAddQuestion_NullQuestion() {
-        // Should not throw, but will call save with null
-        when(questionRepository.save(null)).thenReturn(null);
-        ResponseEntity<String> response = questionService.addQuestion(null);
-        assertEquals(201, response.getStatusCodeValue());
-        assertEquals("Success", response.getBody());
+        assertThrows(IllegalArgumentException.class, () ->
+                questionService.addQuestion(null));
     }
 
     @Test
