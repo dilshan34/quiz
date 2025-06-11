@@ -1,6 +1,6 @@
 // QuizService handles the business logic for quiz management, including creation, retrieval, and scoring.
 // It interacts with the QuizRepository for database operations and QuizInterface for external service calls.
-// All exceptions are custom and provide clear error messages for the API layer.
+// The service uses custom exceptions and IllegalArgumentException to provide clear error messages for the API layer.
 package com.dilshan.quiz.Service;
 
 import com.dilshan.quiz.Exception.NotFoundQuestionException;
